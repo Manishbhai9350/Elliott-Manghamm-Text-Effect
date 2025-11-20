@@ -18,8 +18,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const ImageContainer = document.querySelector(".hero-section .images");
   const HeroTexts = gsap.utils.toArray(".hero-section .texts h1");
-  const SplitedHeroTexts = [];
-  const AllWords = []
+  const SplitedHeroWords = [];
+
+  function InRange(t, range = [0, 0]) {
+    if (t >= range[0] && t < range[1])
+      return (t - range[0]) / (range[1] - range[0]);
+    else return -1;
+  }
 
   function AddImages(onLoad = () => {}) {
     let loaded = 0;
@@ -45,8 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
         wordsClass: `hero-word-${i + 1}`,
         mask: "lines",
       });
-      AllWords.push(...Splited.words)
-      SplitedHeroTexts.push(Splited);
+      SplitedHeroWords.push(Splited.words);
     });
   }
   AddImages(Update);
@@ -57,11 +61,40 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let Time = 0;
 
-  function UpdateDom(p = 0) {
-    AllWords.forEach((Word,i) => {
-      const WordP = (i + 1) / AllWords.length;
-      
-    })
+  function UpdateDom(Progress = 0) {
+    if (Progress < 0.0009) {
+      Progress = 0;
+    }
+    if (Progress > 0.99) {
+      Progress = 1;
+    }
+    if (Progress <= 0.5) {
+      let WordsLength = SplitedHeroWords[0].length + SplitedHeroWords[1].length;
+      const Phase2Range = [SplitedHeroWords[0].length / WordsLength / 2,SplitedHeroWords[0].length / 2 / WordsLength + SplitedHeroWords[1].length / WordsLength / 2];
+      const RangedProgress = InRange(Progress, Phase2Range);
+      if (RangedProgress >= 0) {
+        SplitedHeroWords[0].forEach((word, i) => {
+          const totalWords = SplitedHeroWords[0].length;
+          const wordProgress = i / (totalWords - 1);
+          let wordRangedProgress = Math.max(Math.min(Progress - wordProgress,wordProgress),0)
+          console.log(wordRangedProgress / wordProgress * 100)
+          gsap.set(word,{
+            yPercent:wordRangedProgress / wordProgress * 100
+          })
+        });
+      }
+    } else if (Progress > 0.5) {
+      let WordsLength = SplitedHeroWords[1].length + SplitedHeroWords[2].length;
+      const Phase2Range = [
+        0.5 + SplitedHeroWords[1].length / WordsLength / 2,
+        0.5 +
+          SplitedHeroWords[1].length / WordsLength / 2 +
+          SplitedHeroWords[2].length / WordsLength / 2,
+      ];
+      const RangedProgress = InRange(Progress, Phase2Range);
+      if (RangedProgress >= 0) {
+      }
+    }
   }
 
   function Update(t = 0) {
@@ -72,6 +105,8 @@ window.addEventListener("DOMContentLoaded", () => {
     ScrollValue +=
       (TargetScrollValue - ScrollValue) * DT * EasingFactors.Scroll;
     Progress = Math.min(Math.max(ScrollValue / 100, 0), 1);
+
+    // if(Progress - Math.floor(Progress) >= .99) Progress = Math.ceil(Progress)
 
     Velocity = ScrollValue - PrevScroll;
 
