@@ -170,13 +170,13 @@ window.addEventListener("DOMContentLoaded", () => {
   tl.to(SplitedHeroWords[0], { stagger:.1,yPercent: 100 });
 
   // 2️⃣ Word 2 in
-  tl.to(SplitedHeroWords[1], { stagger:.1,yPercent: 0 });
+  tl.to(SplitedHeroWords[1], { stagger:.1,yPercent: 0 },'<');
 
   // 3️⃣ Word 2 out
   tl.to(SplitedHeroWords[1], { stagger:.1,yPercent: 100 });
 
   // 4️⃣ Word 3 in
-  tl.to(SplitedHeroWords[2], { stagger:.1,yPercent: 0 });
+  tl.to(SplitedHeroWords[2], { stagger:.1,yPercent: 0 },'<');
 
   // ScrollTrigger.create({
   //   trigger: ".hero-section",
@@ -185,3 +185,25 @@ window.addEventListener("DOMContentLoaded", () => {
   //   pin: true,
   // });
 });
+
+
+// const overlapCount = 3;
+
+// const getWOrdProgress = (phaseProgress, wordIndex, totalWords) => {
+// const totalLength = 1 + overlapCount / totalWords;
+
+// const scale = 1 / Math.min(
+// totalLength, 1 + (totalWords - 1) / totalWords + overlapCount / totalWords
+// );
+
+// const startTime = (wordIndex / totalWords) * scale;
+// const endTime = startTime + overlapCount / totalWords * scale
+// const duration = endTime - startTime;
+
+// if(phaseProgress <= startTime) return 0
+// if(phaseProgress >= endTime) return 1
+// return (endTime - startTime) / duration 
+
+// }
+
+// First tell me what problem is this funcion solving
