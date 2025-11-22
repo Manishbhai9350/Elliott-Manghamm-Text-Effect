@@ -199,12 +199,12 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   const Animate = (t = 0) => {
-    Velocity += (TargetVelocity - Velocity) * 0.5;
+    Velocity += (TargetVelocity - Velocity) * 0.7;
     gsap.set("nav .velocity .line", {
       scaleX: Velocity / MaxVelocity,
     });
 
-    rad.phi += 0.45;
+    rad.phi += 0.3;
     rad.phi += (Velocity / MaxVelocity);
     gsap.set(".images", {
       transform: `rotate(${rad.phi}deg)`,
