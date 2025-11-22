@@ -67,23 +67,23 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function CalculateImageDimensions() {
-    const width = innerWidth <= 900 ? 100 : 300;
+    const width = innerWidth <= 900 ? 100 : 120;
     const height = width * aspect;
     return { width, height };
   }
 
   function CalculateOrigin(radius = 0, gap = 0) {
     const x = innerWidth / 2;
-    const y = innerWidth <= 900 ? innerHeight * 0.7 : innerHeight * 0.8;
+    const y = innerWidth <= 900 ? innerHeight * 0.8 : innerHeight * 0.75;
 
-    return [x, y + radius + 50];
+    return [x, y + radius];
   }
 
   function PlaceImages() {
-    const radius = Radius(ImageWidth, rad.gap, TotalImages);
+    const radius = Radius(ImageWidth, rad.gap, Images.length);
     const Origin = CalculateOrigin(radius, rad.gap);
-    for (let i = 0; i < TotalImages; i++) {
-      const theta = (i / TotalImages) * 2 * Math.PI + Math.PI / 2 + rad.phi;
+    for (let i = 0; i < Images.length; i++) {
+      const theta = (i / Images.length) * 2 * Math.PI + Math.PI / 2 + rad.phi;
       const x = Math.cos(theta) * radius;
       const y = Math.sin(theta) * radius;
 
@@ -220,4 +220,14 @@ window.addEventListener("DOMContentLoaded", () => {
     end: `+=${innerHeight * 10}px`,
     pin: true,
   });
+
+  let id;
+  window.addEventListener('resize',() => {
+    clearTimeout(id)
+
+    id = setTimeout(() => {
+      window.location.reload()
+    },200);
+    
+  })
 });
