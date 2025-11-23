@@ -221,13 +221,7 @@ window.addEventListener("DOMContentLoaded", () => {
     pin: true,
   });
 
-  let id;
   window.addEventListener('resize',() => {
-    clearTimeout(id)
-
-    id = setTimeout(() => {
-      window.location.reload()
-    },200);
-    
+    PlaceImages()
   })
 });
